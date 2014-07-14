@@ -2,26 +2,11 @@
 
 class puppet::repo (
   $devel_repo = $puppet::params::devel_repo,) inherits puppet::params {
-  include ::apt
+  if ($::osfamily == 'Debian') {
+    class { 'puppet::repo::apt': devel_repo => $devel_repo, }
 
-  $os_name_lc = downcase($::operatingsystem)
+  } elsif ($::osfamily == 'RedHat') {
+    class { 'puppet::repo::yum': devel_repo => $devel_repo, }
 
-  apt::source { 'puppetlabs':
-    location   => 'http://apt.puppetlabs.com',
-    repos      => 'main dependencies',
-    key        => '4BD6EC30',
-    key_server => 'pgp.mit.edu',
   }
-
-  apt::source { 'puppetlabs_devel':
-    ensure     => $devel_repo ? {
-      default => absent,
-      true    => present,
-    },
-    location   => 'http://apt.puppetlabs.com',
-    repos      => 'devel',
-    key        => '4BD6EC30',
-    key_server => 'pgp.mit.edu',
-  }
-
 }
