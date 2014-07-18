@@ -5,7 +5,7 @@ PuppetLint.configuration.send("disable_80chars")
 # need to find a way around this
 PuppetLint.configuration.send("disable_selector_inside_resource")
 PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
-PuppetLint.configuration.fail_on_warnings = true
+#PuppetLint.configuration.fail_on_warnings = true
 
 # Forsake support for Puppet 2.6.2 for the benefit of cleaner code.
 # http://puppet-lint.com/checks/class_parameter_defaults/
