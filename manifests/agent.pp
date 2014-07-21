@@ -1,7 +1,7 @@
 # # puppet agent service
 
 class puppet::agent (
-  $enable = 'running',
+  $enable = true,
   $ensure = true) inherits puppet::params {
   service { 'puppet':
     ensure  => $ensure,

@@ -2,6 +2,7 @@
 # config for puppet agent
 
 class puppet::config (
+  $reports          = $puppet::params::reports,
   $puppet_server    = $puppet::params::puppet_server,
   $environment      = $puppet::params::environment,
   $runinterval      = $puppet::params::runinterval,
@@ -26,6 +27,15 @@ class puppet::config (
     section => 'agent',
     setting => 'environment',
     value   => $environment,
+    require => Class['puppet::install'],
+  }
+
+  ini_setting { 'puppet client reports':
+    ensure  => present,
+    path    => "${::settings::confdir}/puppet.conf",
+    section => 'agent',
+    setting => 'reports',
+    value   => $runinterval,
     require => Class['puppet::install'],
   }
 
