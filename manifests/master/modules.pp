@@ -1,6 +1,7 @@
 # # Class puppet::master::modules
 
 class puppet::master::modules (
+  $r10k_version   = 'installed',
   $env_owner        = 'puppet',
   $extra_env_repos  = undef,
   $hiera_repo       = undef,
@@ -25,6 +26,9 @@ class puppet::master::modules (
 
   validate_string($env_owner)
 
+  if $r10k_version {
+    validate_string($r10k_version)
+  }
   if $hiera_repo {
     validate_string($hiera_repo)
   }
@@ -35,6 +39,12 @@ class puppet::master::modules (
 
   if $extra_env_repos {
     validate_hash($extra_env_repos)
+  }
+
+  # Install R10k Gem
+  package { 'r10k':
+    ensure   => $r10k_version,
+    provider => gem
   }
 
   # r10k setup

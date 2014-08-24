@@ -5,12 +5,10 @@ class puppet::master::install (
   include ::puppet::master
   $hiera_eyaml_version = 'installed'
   $puppet_version = 'installed'
-  $r10k_version   = 'installed'
 
   validate_string(
     $hiera_eyaml_version,
     $puppet_version,
-    $r10k_version
   )
 
   package { 'puppetmaster-common':
@@ -47,11 +45,6 @@ class puppet::master::install (
   }
 
   # install some needed gems
-  package { 'r10k':
-    ensure   => $r10k_version,
-    provider => gem
-  }
-
   package { 'hiera-eyaml':
     ensure   => $hiera_eyaml_version,
     provider => gem

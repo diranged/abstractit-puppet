@@ -59,7 +59,7 @@ describe 'puppet::master::modules', :type => :class do
       end
     end#strings
 
-    ['hiera_repo','puppet_env_repo'].each do |optional_strings|
+    ['hiera_repo','puppet_env_repo','r10k_version'].each do |optional_strings|
       context "when the optional parameter #{optional_strings} has a value, but it is not a string" do
         let (:params) {{optional_strings => true }}
         it 'should fail' do
@@ -74,6 +74,12 @@ describe 'puppet::master::modules', :type => :class do
       let (:pre_condition) {"package{'r10k': ensure => 'present'}"}
       let (:facts) {{'osfamily' => osfam}}
       context 'when fed no parameters' do
+        it 'should install the r10k package' do
+          should contain_package('r10k').with({
+            :ensure => 'installed',
+            :provider => 'gem'
+          })
+        end
         it 'should lay down /var/cache/r10k' do
           should contain_file('/var/cache/r10k').with({
             :path=>"/var/cache/r10k",
@@ -115,6 +121,16 @@ describe 'puppet::master::modules', :type => :class do
       end#no params
 
       context 'when the env_owner param has a non-standard value' do
+        context 'when the r10k_version param has a non-standard value' do
+          let (:params){default_params.merge({'r10k_version' => 'BOGON'})}
+          it 'should install the specified version of the r10k package' do
+            should contain_package('r10k').with({
+              :name=>"r10k",
+              :ensure=>"BOGON",
+              :provider=>"gem"
+            })
+          end
+        end
         let (:params) {{'env_owner' => 'BOGON'}}
         ['/var/cache/r10k','/etc/puppet/r10kenv'].each do |the_dir|
           it "should lay down #{the_dir}" do

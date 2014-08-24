@@ -22,7 +22,7 @@ class puppet::profile::master (
   $passenger_stat_throttle_rate = '120',
   $puppet_fqdn                  = $::fqdn,
   $puppet_server                = 'puppet',
-  $modules                      = true,
+  $modules                      = false,
   $extra_env_repos              = undef,
   $hiera_repo,
   $puppet_env_repo              = undef,
@@ -48,7 +48,6 @@ class puppet::profile::master (
   class { 'puppet::master':
     hiera_eyaml_version          => $hiera_eyaml_version,
     puppet_version               => $puppet_version,
-    r10k_version                 => $r10k_version,
     environmentpath              => $environmentpath,
     module_path                  => $module_path,
     pre_module_path              => $pre_module_path,
@@ -67,19 +66,6 @@ class puppet::profile::master (
     puppet_server                => $puppet_server,
   }
 
-  if ($modules == true) {
-    class { 'puppet::master::modules':
-      env_owner        => $env_owner,
-      extra_env_repos  => $extra_env_repos,
-      hiera_repo       => $hiera_repo,
-      puppet_env_repo  => $puppet_env_repo,
-      r10k_env_basedir => $r10k_env_basedir,
-      r10k_minutes     => $r10k_minutes,
-      r10k_purgedirs   => $r10k_purgedirs,
-      r10k_update      => $r10k_update,
-    }
-  }
-
   if ($puppetdb == true) {
     class { 'puppet::master::puppetdb':
       puppetdb_version            => $puppetdb_version,
@@ -91,6 +77,20 @@ class puppet::profile::master (
       report_ttl                  => $report_ttl,
       reports                     => $reports,
       use_ssl                     => $puppetdb_use_ssl,
+    }
+  }
+
+  if ($modules == true) {
+    class { 'puppet::master::modules':
+      r10k_version     => $r10k_version,
+      env_owner        => $env_owner,
+      extra_env_repos  => $extra_env_repos,
+      hiera_repo       => $hiera_repo,
+      puppet_env_repo  => $puppet_env_repo,
+      r10k_env_basedir => $r10k_env_basedir,
+      r10k_minutes     => $r10k_minutes,
+      r10k_purgedirs   => $r10k_purgedirs,
+      r10k_update      => $r10k_update,
     }
   }
 

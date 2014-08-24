@@ -42,7 +42,7 @@ describe 'puppet::master::install', :type => :class do
 #      end
 #    end#hashes
 
-    ['hiera_eyaml_version','puppet_version','r10k_version'].each do |strings|
+    ['hiera_eyaml_version','puppet_version'].each do |strings|
       context "when the #{strings} parameter is not a string" do
         let (:params) {default_params.merge({strings => false })}
         it 'should fail' do
@@ -75,13 +75,6 @@ describe 'puppet::master::install', :type => :class do
           should contain_package('puppetmaster-passenger').with({
             :ensure=>"installed",
           }).that_requires("Package[puppetmaster]").that_requires("Service[puppetmaster]")
-        end
-
-        it 'should install the r10k package' do
-          should contain_package('r10k').with({
-            :ensure => 'installed',
-            :provider => 'gem'
-          })
         end
 
         it 'should install the hiera-eyaml package' do
@@ -138,16 +131,6 @@ describe 'puppet::master::install', :type => :class do
           should contain_package('puppetmaster-passenger').with({
             :ensure=>"BOGON",
           }).that_requires("Package[puppetmaster]").that_requires("Service[puppetmaster]")
-        end
-      end
-      context 'when the r10k_version param has a non-standard value' do
-        let (:params){default_params.merge({'r10k_version' => 'BOGON'})}
-        it 'should install the specified version of the r10k package' do
-          should contain_package('r10k').with({
-            :name=>"r10k",
-            :ensure=>"BOGON",
-            :provider=>"gem"
-          })
         end
       end
     end
