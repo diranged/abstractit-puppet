@@ -113,6 +113,12 @@ describe 'puppet::repo::apt', :type => :class do
           should_not contain_apt__source('puppetlabs_devel')
         end
       end
+      context 'when ::puppet::manage_apt is false' do
+        let (:pre_condition){"class{'::puppet': manage_apt => false}"}
+        it 'should not control ::apt class' do
+          should_not contain_class('::apt')
+        end
+      end
       context 'when ::puppet::manage_repos is true' do
         context 'when ::puppet::devel_repo is false' do
           let (:pre_condition){"class{'::puppet': devel_repo => false}"}

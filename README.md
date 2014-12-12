@@ -160,6 +160,10 @@ The main `init.pp` manifest is responsible for validating some of our parameters
 
     Whether or not this module should manage the `/etc/facter/facts.d` directory
 
+  * **manage_apt**: (*bool* Default `true`)
+
+    Whehther or not we manage the `::apt` class. If this is `true`, we instantiate the class (or at least include it). If this is `false`, we expect that the `::apt` class has been instantiated somewhere else. (*bool* Default: `true`)
+
   * **manage_repos**: (*bool* Default `true`)
 
     Whether or not we pay any attention to managing repositories. This is managed by only including [puppet::repo](#private-class-puppetrepo) subclass when true. The individual repo subclasses also will perform no action if included with this param set to false.

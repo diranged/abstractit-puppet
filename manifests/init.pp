@@ -12,6 +12,7 @@ class puppet (
   $manage_etc_facter         = true,
   $manage_etc_facter_facts_d = true,
   $manage_repos              = true,
+  $manage_apt                = true,
   $puppet_server             = 'puppet',
   $puppet_version            = 'installed',
   $reports                   = true,
@@ -27,6 +28,7 @@ class puppet (
     $manage_etc_facter,
     $manage_etc_facter_facts_d,
     $manage_repos,
+    $manage_apt,
     $reports,
     $structured_facts,
   )
