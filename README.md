@@ -50,6 +50,7 @@ If it works for you, awesome! If not, let me know *or send me a pull request*.
   * /etc/puppet/keys
   * /etc/puppet/keys/eyaml
 * **Files:**  `dynamically updated files are displayed like this`
+  * `/etc/default/puppet`
   * `/etc/hiera.yaml`
   * `/etc/puppet/puppet.conf`
   * `/etc/puppet/hiera.yaml`
