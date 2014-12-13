@@ -25,6 +25,7 @@ class puppet::agent (){
     #$::puppet::enabled is false
     $cron_enablement    = 'absent'
     $service_enablement = false
+    $default_start_value = 'no'
   }
 
   ini_setting { 'puppet_defaults':
